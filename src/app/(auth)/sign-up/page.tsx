@@ -10,16 +10,16 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import AuthCredentialsValidator from '@/validations/AuthValidator'
 import type { TAuthCredentialsValidator } from '@/types/AuthValidator'
+import { trpc } from '@/trpc/client'
 
 const Signup = () => {
 
   const {
-    register,
-    handleSubmit,
-    formState: { errors } } = useForm<TAuthCredentialsValidator>({
+    register, handleSubmit, formState: { errors } } = useForm<TAuthCredentialsValidator>({
       resolver: zodResolver(AuthCredentialsValidator)
     })
 
+const {data} = trpc.anyApiRoute.useQuery()
 
   const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {
     // send data to the server
